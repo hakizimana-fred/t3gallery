@@ -1,17 +1,18 @@
 
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 import { db } from "~/server/db";
 
 
 export const dynamic ="force-dynamic"
 
-export default async function HomePage() {
-  const posts = await db.query.posts.findMany({
+async function Images() {
+const posts = await db.query.posts.findMany({
     orderBy: (model, {desc}) => desc(model.id)
   })
 
   return (
-    <main className="">
+
      <div className="flex flex-wrap gap-4">
       {[...posts, ...posts, ...posts].map((post, idx) => (
         <div key={idx} className="flex w-48 flex-col">
@@ -19,6 +20,20 @@ export default async function HomePage() {
         </div>
       ))}
      </div>
+
+  )
+}
+
+
+export default async function HomePage() {
+    return (
+    <main className="">
+      <SignedOut>
+        <div className="h-full w-full text-2xl">Please sign in to continue</div>
+      </SignedOut>
+      <SignedIn>
+        <Images />
+      </SignedIn>
     </main>
   );
 }
