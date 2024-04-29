@@ -1,6 +1,5 @@
 
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import Link from "next/link";
 import { db } from "~/server/db";
 
 
@@ -14,7 +13,7 @@ const posts = await db.query.posts.findMany({
   return (
 
      <div className="flex flex-wrap gap-4">
-      {[...posts, ...posts, ...posts].map((post, idx) => (
+      {posts.map((post, idx) => (
         <div key={idx} className="flex w-48 flex-col">
           <img src={post.url} alt="" />
         </div>
@@ -29,7 +28,7 @@ export default async function HomePage() {
     return (
     <main className="">
       <SignedOut>
-        <div className="h-full w-full text-2xl">Please sign in to continue</div>
+        <div className="h-full text-center w-full text-2xl">Please sign in to continue</div>
       </SignedOut>
       <SignedIn>
         <Images />
